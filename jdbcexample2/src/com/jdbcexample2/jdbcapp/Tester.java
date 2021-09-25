@@ -2,16 +2,41 @@ package com.jdbcexample2.jdbcapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class Tester {
 	public static void main (String[] args) {
 		
-		Tester.save();
-		Tester .delete();
-		Tester.update();
+		//Tester.save();
+		//Tester .delete();
+		//Tester.update();
+		getAll();
 		
+	}
+	static void getAll() {
+		try {
+			
+			Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root","Jobs@2212");
+			Statement stat = connect.createStatement();
+			ResultSet result = stat.executeQuery("select * from student_info");  
+			while(result.next()) {
+				int id=result.getInt("std_id");
+				String name= result.getString("std_name");
+				String qualification= result.getString("std_qualification");
+				String place= result.getString("student_place");
+				System.out.println(id+"\t"+name+"\t"+qualification+"\t"+place);
+		
+			}
+			connect.close();
+			
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 		
 		static void save(){
@@ -81,7 +106,10 @@ public class Tester {
 				System.out.println("data updated successfully");
 			}else
 				System.out.println("data not updated");
-		} catch ( SQLException e) {
+			
+		}
+		
+		catch ( SQLException e) {
 			
 			e.printStackTrace();
 		} 
